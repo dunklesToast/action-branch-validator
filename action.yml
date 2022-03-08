@@ -1,11 +1,14 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Branch Validator'
+description: 'Validates branches against a pre-defined pattern'
+author: 'Tom Sacher'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  scopes:
+    required: false
+    description: 'Specify all the scopes that are allowed before the slash'
+    default: 'fix,feat,build,chore,ci,docs,style,refactor,perf,test'
+outputs:
+  branch:
+    description: 'The PRs branch name'
 runs:
   using: 'node16'
   main: 'dist/index.js'
