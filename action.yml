@@ -6,6 +6,9 @@ inputs:
     required: false
     description: 'Specify all the scopes that are allowed before the slash'
     default: 'fix,feat,build,chore,ci,docs,style,refactor,perf,test'
+  GITHUB_TOKEN:
+    required: true
+    description: 'Pass a Github API Token - GITHUB_TOKEN works.'
 outputs:
   branch:
     description: 'The PRs branch name'
