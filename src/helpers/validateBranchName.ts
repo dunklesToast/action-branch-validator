@@ -10,6 +10,7 @@ export function validateBranchName(branch: string): void {
     return process.exit(1)
   }
 
+  core.info('Branch type is valid')
   const validationRegex = new RegExp('([A-Z]*)-(TICKET|\\d*)', 'g')
   const matches = validationRegex.exec(rest)
 
@@ -18,6 +19,7 @@ export function validateBranchName(branch: string): void {
     return process.exit(1)
   }
 
+  core.info('RegExp matches')
   const ticketNumber = matches[2]
 
   if (ticketNumber && ticketNumber === 'TICKET') {
@@ -25,6 +27,7 @@ export function validateBranchName(branch: string): void {
   }
 
   if (!matches || Number.isNaN(Number.parseInt(ticketNumber, 10))) {
+    core.info('Ticket number is invalid or not existing')
     console.error(`"${branch}" doesn't seem to be a valid branch name. Expected following pattern: "type/XX-1234"`)
     return process.exit(1)
   }
