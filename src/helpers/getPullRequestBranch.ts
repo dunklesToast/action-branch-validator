@@ -1,5 +1,5 @@
-import { octokit } from './getOctokit'
 import { context } from '@actions/github'
+import { octokit } from './getOctokit'
 
 export async function getPullRequestBranch(): Promise<string> {
   const { owner, repo } = context.repo

@@ -55,8 +55,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPullRequestBranch = void 0;
-const getOctokit_1 = __nccwpck_require__(7998);
 const github_1 = __nccwpck_require__(5438);
+const getOctokit_1 = __nccwpck_require__(7998);
 function getPullRequestBranch() {
     return __awaiter(this, void 0, void 0, function* () {
         const { owner, repo } = github_1.context.repo;
@@ -118,9 +118,7 @@ const core = __importStar(__nccwpck_require__(2186));
 function getScopes() {
     const scopes = core.getInput('scopes').split(',');
     if (typeof scopes !== 'object' || !scopes.length) {
-        throw new Error('scopes are valid. Expected array of strings, got "' +
-            scopes +
-            '". Use commas to provide multiple scopes: scope1,scope2');
+        throw new Error(`scopes are valid. Expected array of strings, got "${scopes}". Use commas to provide multiple scopes: scope1,scope2`);
     }
     return scopes;
 }
@@ -165,7 +163,7 @@ function validateBranchName(branch) {
     const scopes = (0, getScopes_1.getScopes)();
     const [type, rest] = branch.split('/');
     if (!scopes.includes(type)) {
-        core.setFailed('Type "' + type + '" is not valid. Expected one of ' + scopes.join(', '));
+        core.setFailed(`Type "${type}" is not valid. Expected one of ${scopes.join(', ')}`);
         return process.exit(1);
     }
     const validationRegex = new RegExp('([A-Z]*)-(TICKET|\\d*)', 'g');

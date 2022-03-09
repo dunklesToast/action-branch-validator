@@ -1,11 +1,11 @@
 import * as core from '@actions/core'
 import { getScopes } from './getScopes'
 
-export function validateBranchName(branch: string) {
+export function validateBranchName(branch: string): void {
   const scopes = getScopes()
   const [type, rest] = branch.split('/')
   if (!scopes.includes(type)) {
-    core.setFailed('Type "' + type + '" is not valid. Expected one of ' + scopes.join(', '))
+    core.setFailed(`Type "${type}" is not valid. Expected one of ${scopes.join(', ')}`)
     return process.exit(1)
   }
 
