@@ -116,9 +116,13 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getScopes = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 function getScopes() {
-    const scopes = core.getInput('scopes').split(',');
+    const scopesInput = core.getInput('scopes');
+    if (!scopesInput) {
+        core.setFailed(`no scopes provided. got ${scopesInput}`);
+    }
+    const scopes = scopesInput.split(',');
     if (typeof scopes !== 'object' || !scopes.length) {
-        throw new Error(`scopes are valid. Expected array of strings, got "${scopes}". Use commas to provide multiple scopes: scope1,scope2`);
+        core.setFailed(`scopes are valid. Expected array of strings, got "${scopes}". Use commas to provide multiple scopes: scope1,scope2`);
     }
     return scopes;
 }
