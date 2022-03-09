@@ -44,6 +44,29 @@ exports.octokit = (0, github_1.getOctokit)(token);
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55,6 +78,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPullRequestBranch = void 0;
+const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 const getOctokit_1 = __nccwpck_require__(7998);
 function getPullRequestBranch() {
@@ -62,13 +86,16 @@ function getPullRequestBranch() {
         const { owner, repo } = github_1.context.repo;
         const prNumber = getPRNumber();
         if (!prNumber) {
-            throw new Error('Unable to get Pull Request number. Make sure that his action only runs in PR triggered Events.');
+            core.setFailed('Unable to get Pull Request number. Make sure that his action only runs in PR triggered Events.');
+            process.exit(1);
         }
+        core.info('Fetching PR from GitHub');
         const pr = yield getOctokit_1.octokit.rest.pulls.get({
             owner,
             repo,
             pull_number: prNumber
         });
+        core.info('Fetched PR from GitHub');
         return pr.data.head.ref;
     });
 }
@@ -165,6 +192,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const getScopes_1 = __nccwpck_require__(2470);
 function validateBranchName(branch) {
     const scopes = (0, getScopes_1.getScopes)();
+    core.info(`Got ${scopes.length} scopes.`);
     const [type, rest] = branch.split('/');
     if (!scopes.includes(type)) {
         core.setFailed(`Type "${type}" is not valid. Expected one of ${scopes.join(', ')}`);
@@ -237,8 +265,10 @@ const branch = github_1.context.payload.e;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            core.info('Getting pull request branch...');
             const branchName = yield (0, getPullRequestBranch_1.getPullRequestBranch)();
             core.setOutput('branch', branchName);
+            core.info(`Set branch name output to "${branchName}"`);
             (0, validateBranchName_1.validateBranchName)(branch);
         }
         catch (error) {

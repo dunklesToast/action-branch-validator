@@ -3,6 +3,7 @@ import { getScopes } from './getScopes'
 
 export function validateBranchName(branch: string): void {
   const scopes = getScopes()
+  core.info(`Got ${scopes.length} scopes.`)
   const [type, rest] = branch.split('/')
   if (!scopes.includes(type)) {
     core.setFailed(`Type "${type}" is not valid. Expected one of ${scopes.join(', ')}`)
