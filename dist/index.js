@@ -258,10 +258,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const github_1 = __nccwpck_require__(5438);
 const getPullRequestBranch_1 = __nccwpck_require__(1121);
 const validateBranchName_1 = __nccwpck_require__(1841);
-const branch = github_1.context.payload.e;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -269,7 +267,7 @@ function run() {
             const branchName = yield (0, getPullRequestBranch_1.getPullRequestBranch)();
             core.setOutput('branch', branchName);
             core.info(`Set branch name output to "${branchName}"`);
-            (0, validateBranchName_1.validateBranchName)(branch);
+            (0, validateBranchName_1.validateBranchName)(branchName);
         }
         catch (error) {
             if (error instanceof Error)
