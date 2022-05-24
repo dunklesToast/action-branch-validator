@@ -10,7 +10,7 @@ This action validates branch names for a specified convention.
 - uses: dunklesToast/action-branch-validator@v1
 ```
 
-This will allow such braches:
+This will allow such branches:
 
 ```
 feat/XD-1337
